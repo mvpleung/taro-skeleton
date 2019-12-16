@@ -31,3 +31,31 @@
     padding: 10px;
   }
 }
+.custom {
+    padding: 0 5px;
+    .skeleton {
+        padding: 20px;
+        &-title {
+            margin-bottom: 0;
+        }
+    }
+    &-skeleton {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        .skeleton {
+            flex: 1;
+            &-avatar {
+                width: 100% !important;
+                margin: 0;
+            }
+        }
+    }
+    .row-skeleton {
+        display: flex;
+        justify-content: space-between;
+        .skeleton {
+            padding-left: 0;
+        }
+    }
+}

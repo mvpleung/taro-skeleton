@@ -44,11 +44,11 @@ export default class Index extends Component {
 
         <Text>纵向排练</Text>
         <View className="column-skeleton">
-          <Skeleton type='column' title titleWidth={'80%'} avatar></Skeleton>
-          <Skeleton type='column' row={1} rowWidth={'70%'} avatar></Skeleton>
-          <Skeleton type='column' title titleWidth={'60%'} avatar></Skeleton>
-          <Skeleton type='column' title titleWidth={'50%'} avatar></Skeleton>
-          <Skeleton type='column' title titleWidth={'100%'} avatar></Skeleton>
+          <Skeleton type='column' title titleProps={{width: '80%'}} avatar avatarShape='square'></Skeleton>
+          <Skeleton type='column' row={1} titleProps={{width: '70%'}} avatar avatarShape='square'></Skeleton>
+          <Skeleton type='column' title titleProps={{width: '60%'}} avatar avatarShape='square'></Skeleton>
+          <Skeleton type='column' title titleProps={{width: '50%'}} avatar avatarShape='square'></Skeleton>
+          <Skeleton type='column' title titleProps={{width: '100%'}} avatar avatarShape='square'></Skeleton>
         </View>
 
         <Text>修改 动画模式 </Text>
@@ -58,7 +58,7 @@ export default class Index extends Component {
         <Skeleton row={1} rowProps={[{
           width: '50%',
           height: '50px'
-        }]} avatar></Skeleton>
+        }]} avatar custom renderSkeleton={<View className='welcome-message'>Welcome!</View>}></Skeleton>
         
         <Switch checked={this.state.checked} onChange={value => {
           console.log('value', value);
@@ -81,6 +81,35 @@ export default class Index extends Component {
           </View>
         </Skeleton>
 
+        <Text>组合骨架屏</Text>
+        <Skeleton  loading={this.state.loading} custom renderCustom={
+            <View className='custom'>
+            <Skeleton title titleProps={{width: '30%'}}/>
+            <Skeleton title titleProps={{width: '90%'}}/>
+            <View className="custom-skeleton">
+                <Skeleton type='column' title titleProps={{width: '100%'}} avatar  avatarShape='square'/>
+                <Skeleton type='column' title titleProps={{width: '100%'}} avatar  avatarShape='square'/>
+                <Skeleton type='column' title titleProps={{width: '100%'}} avatar  avatarShape='square'/>
+            </View>
+            <View className='row-skeleton'>
+                <Skeleton action actionProps={{width: '200rpx', height: '24rpx'}}/>
+                <Skeleton action actionProps={{width: '200rpx', height: '24rpx'}}/>
+            </View>
+        </View>
+        }>
+            <View className='item'>
+            <View className='item-img'>
+              <Image className='item-img' src='https://iconfont.alicdn.com/t/1536041894220.jpg@100h_100w.jpg'></Image>
+            </View>
+            <View className='item-info'>
+              <View className='item-info-title'>Skeleton 骨架屏</View>
+              <View className='item-info-desc'>Skeleton 骨架屏 简单易用</View>
+            </View>
+            <View >
+              <Button type='primary' className='item-btn'>操作</Button>
+            </View>
+          </View>
+        </Skeleton>
       </View>
     )
   }

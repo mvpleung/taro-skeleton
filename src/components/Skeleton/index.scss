@@ -32,6 +32,9 @@ $skeleton-row-background-color: #f2f3f5;
       align-items: center;
     }
   }
+  &-custom {
+      width: 100%;
+  }
   &-content {
     flex: 1;
     padding-top: 16px;
