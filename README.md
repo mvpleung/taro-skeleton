@@ -9,6 +9,12 @@
 3. 支付宝小程序
 4. 其它平台未测试
 
+## 安装
+
+```javascript
+npm install @mvpleung/taro-skeleton -S
+```
+
 ## 引入
 
 ```javascript

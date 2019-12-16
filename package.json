@@ -1,5 +1,5 @@
 {
-	"name": "taro-skeleton",
+	"name": "@mvpleung/taro-skeleton",
 	"version": "1.0.13",
 	"description": "基于Taro的一个骨架屏组件，简单易用",
 	"main": "dist/index.js",
