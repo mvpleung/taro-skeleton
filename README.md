@@ -1,6 +1,6 @@
 # Skeleton 骨架屏
 
-基于 taro 到一个简单易用的骨架屏组件，fork 自 <https://github.com/lentoo/taro-skeleton>
+基于 taro 到一个简单易用的骨架屏组件，支持支付宝小程序、自定义骨架屏内容，fork 自 <https://github.com/lentoo/taro-skeleton>
 
 ## 支持多端平台使用
 
