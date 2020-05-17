@@ -58,7 +58,7 @@ export default class Index extends Component {
         <Skeleton row={1} rowProps={[{
           width: '50%',
           height: '50px'
-        }]} avatar custom renderSkeleton={<View className='welcome-message'>Welcome!</View>}></Skeleton>
+        }]} avatar custom renderCustom={<View className='welcome-message'>Welcome!</View>}></Skeleton>
         
         <Switch checked={this.state.checked} onChange={value => {
           console.log('value', value);

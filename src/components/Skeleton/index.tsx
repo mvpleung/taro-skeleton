@@ -13,6 +13,16 @@ import './index.scss'
  */
 export interface SkeletonProps {
   /**
+   * @description 骨架屏行内样式
+   * @type {AttrProps}
+   */
+  skeletonStyle?: AttrProps
+  /**
+   * @description 骨架屏样式表
+   * @type {string}
+   */
+  className?: string
+  /**
    * @description 排列方向  横向 或者 纵向， 默认 row
    * @type {('row' | 'column')}
    * @memberof SkeletonProps
@@ -45,9 +55,9 @@ export interface SkeletonProps {
   avatar?: boolean
   /**
    * @description avatar-size
-   * @type {(number | AttrProps)}
+   * @type {(number | string | AttrProps)}
    */
-  avatarSize?: number | AttrProps
+  avatarSize?: number | string | AttrProps
   /**
    * @description 头像占位图形状，可选值为 `square` 、`round` 默认值：round
    * @type {AvatarShapeOptions}
@@ -130,7 +140,7 @@ export type AvatarShapeOptions = 'round' | 'square'
 const DEFAULT_ROW_WIDTH = '100%'
 export default function Skeleton(props: SkeletonProps) {
   if (!props.loading) {
-    return <View>{props.children}</View>
+    return <Block>{props.children}</Block>
   }
 
   const getRowWidth = (index: number) => {
@@ -168,23 +178,41 @@ export default function Skeleton(props: SkeletonProps) {
     return typeof value === 'number' ? Taro.pxTransform(value) : value
   }
 
+  const styles = (styleObj?: AttrProps, extra?: AttrProps): string => {
+    if (!styleObj && !extra) return ''
+    const propsObj = {
+      ...(styleObj || {}),
+      ...(extra || {})
+    };
+    return Object.keys(propsObj)
+      .map(
+        (key: string) =>
+          `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${
+            ['width', 'height'].indexOf(key) >= 0
+              ? addUnit(propsObj[key])
+              : propsObj[key]
+          };`
+      )
+      .join('');
+  }
+
   const renderAvatar = (): JSX.Element | null => {
     if (props.avatar) {
       const avatarClass = classnames('skeleton-avatar', {
         'skeleton-avatar-round': props.avatarShape === 'round'
       })
-      const avatarProps =
-        typeof props.avatarSize === 'number'
+      const avatarProps: AttrProps =
+        typeof props.avatarSize === 'number' ||
+        typeof props.avatarSize === 'string'
           ? { width: props.avatarSize, height: props.avatarSize }
           : props.avatarSize || {}
       return (
         <View
           className={avatarClass}
-          style={{
-            width: addUnit(avatarProps.width),
-            height: addUnit(avatarProps.height),
+          style={styles({
+            ...avatarProps,
             backgroundColor: props.skeletonColor
-          }}
+          })}
         />
       )
     }
@@ -197,12 +225,10 @@ export default function Skeleton(props: SkeletonProps) {
       return (
         <View
           className="skeleton-title"
-          style={{
+          style={styles({
             ...titleProps,
-            width: addUnit(titleProps.width),
-            height: addUnit(titleProps.height),
             backgroundColor: props.skeletonColor
-          }}
+          })}
         />
       )
     }
@@ -214,12 +240,10 @@ export default function Skeleton(props: SkeletonProps) {
       return (
         <View
           className="skeleton-action"
-          style={{
+          style={styles({
             ...actionProps,
-            width: addUnit(actionProps.width),
-            height: addUnit(actionProps.height),
             backgroundColor: props.skeletonColor
-          }}
+          })}
         />
       )
     }
@@ -235,11 +259,11 @@ export default function Skeleton(props: SkeletonProps) {
           <View
             key={item}
             className="skeleton-row"
-            style={{
+            style={styles({
               width: addUnit(getRowWidth(index)),
               height: addUnit(getRowHeight(index)),
               backgroundColor: props.skeletonColor
-            }}
+            })}
           />
         )
       })
@@ -254,13 +278,18 @@ export default function Skeleton(props: SkeletonProps) {
       [`skeleton-type-${props.type}`]: true,
       'skeleton-animate-blink': props.animate && props.animateName === 'blink',
       'skeleton-animate-elastic':
-        props.animate && props.animateName === 'elastic'
-    }
+        props.animate && props.animateName === 'elastic',
+    },
+    props.className
   ])
 
   const custom = props.custom
+  const skeletonStyle = props.skeletonStyle || {}
   return (
-    <View className={rootClass}>
+    <View
+      className={rootClass}
+      style={styles(skeletonStyle)}
+    >
       {custom ? (
         <View className="skeleton-custom">{props.renderCustom}</View>
       ) : (
@@ -285,6 +314,8 @@ Skeleton.defaultProps = {
   row: 0,
   loading: true,
   animate: true,
+  skeletonStyle: {},
+  className: '',
   rowWidth: '100%',
   rowHeight: 24,
   titleProps: {
